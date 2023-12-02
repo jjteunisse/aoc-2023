@@ -4,7 +4,7 @@ import re
 
 def retrieve_document():
     here = os.path.dirname(os.path.abspath(__file__))
-    with open(here + '\..\document.txt') as file:
+    with open(here + '\data\day1.txt') as file:
         return file.read().splitlines()
 
 
