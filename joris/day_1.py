@@ -1,15 +1,15 @@
 import re, sys
 
-def run(path, part):
-	if 'test' in path:
-		path = path.split('.txt')[0] + '_p' + str(part) + '.txt'
+def run(data, part):
+	if 'test' in data: data += f'_p{part}'
+
 	digits = {
 		'one':   1, 'two':   2, 'three': 3,
 		'four':  4, 'five':  5, 'six':   6,
 		'seven': 7, 'eight': 8, 'nine':  9
 	}
 	cali_sum = 0
-	for line in open(path).readlines():
+	for line in open('./inputs/' + data + '.txt').readlines():
 		first, last = '', ''
 		for i, c in enumerate(line):
 			if c >= '1' and c <= '9':
@@ -21,12 +21,15 @@ def run(path, part):
 					if c == k[0] and line[i : i + len(k)] == k:
 						if first == '': first = v
 						last = v
+
 		cali_sum += int(f'{first}{last}')
-	print(f'The answer to part {part} is: {cali_sum}')
+
+	print(f'Answer to part {part}: {cali_sum}')
 
 if __name__ == '__main__':
-	path = './inputs/day_1.txt'
-	if len(sys.argv) > 1 and sys.argv[1] == 'test':
-		path = './inputs/test_day_1.txt'
-	run(path, 1)
-	run(path, 2)
+	data = 'day_1'
+	if len(sys.argv) > 1 and sys.argv[1] == '--test':
+		data = 'test_' + data
+
+	run(data, 1)
+	run(data, 2)
