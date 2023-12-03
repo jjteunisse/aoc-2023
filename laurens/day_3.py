@@ -1,4 +1,3 @@
-import os
 import re
 
 
@@ -63,14 +62,7 @@ def get_engine_line_value(previous_line, current_line, next_line):
 
                 pivot += 1
 
-            if found_number_string == "8":
-                print(neighbours)
-                print(first_index)
-                print(last_index)
-
             if check_neighbours_for_special_character(neighbours):
-                if found_number_string == "8":
-                    print("true")
                 line_score += int(found_number_string)
 
             found_number_string = ""
@@ -95,4 +87,4 @@ if __name__ == '__main__':
 
         score += get_engine_line_value(previous_line, current_line, next_line)
 
-    print(score)
+    print("Task 1: " + str(score))
