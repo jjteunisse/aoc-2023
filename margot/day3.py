@@ -71,10 +71,7 @@ def __main__():
     sum_gear_ratios = 0
     for gear in zip(*np.where(data == "*")):
         adjacent_parts = [number for number in part_numbers if gear in environment(data, number.row, number.start, number.end)]
-        
-        for number in adjacent_parts:
-            env = environment(data, number.row, number.start, number.end)
-        
+
         if len(adjacent_parts) == 2:
             gear_ratio = adjacent_parts[0].value*adjacent_parts[1].value
             sum_gear_ratios += gear_ratio
