@@ -1,9 +1,0 @@
-clear all; close all; clc;
-
-fid = fopen('D:\Home Projects\Advent of Code\2023\Day1\input.txt');
-format = '%c';
-doc = strsplit(fscanf(fid,format));
-for i = 1:length(doc)
-    doc_ASCII{i,1} = double(char(doc{i}));
-    doc_ASCII(i,2) = find((doc_ASCII{i,1} < 58) & (doc_ASCII > 47));
-end
