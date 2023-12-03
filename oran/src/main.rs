@@ -1,5 +1,6 @@
 mod day1a;
 mod day1b;
+mod day2a;
 use std::{env, process::exit};
 
 fn main() {
@@ -13,6 +14,7 @@ fn main() {
     match args[1].as_str() {
         "day1a" => println!("{}", day1a::solve().unwrap()),
         "day1b" => println!("{}", day1b::solve().unwrap()),
+        "day2a" => println!("{}", day2a::solve().unwrap()),
         _ => println!("unknown name"),
     }
 
