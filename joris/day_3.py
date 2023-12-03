@@ -42,14 +42,14 @@ def run(schematic: list[str]):
 			if   num_dict['y'] < sym_dict['y'] - 1: continue
 			elif num_dict['y'] > sym_dict['y'] + 1: break
 			elif (
-					num_dict['x_start'] - 1 <=
-					sym_dict['x'] <=
-					num_dict['x_end'] + 1
-				):
-					sym_dict['adjacent'].append(num_dict['number'])
-					if not num_dict['processed']:
-						part_sum += num_dict['number']
-						num_dict['processed'] = True
+				num_dict['x_start'] - 1 <=
+				sym_dict['x'] <=
+				num_dict['x_end'] + 1
+			):
+				sym_dict['adjacent'].append(num_dict['number'])
+				if not num_dict['processed']:
+					part_sum += num_dict['number']
+					num_dict['processed'] = True
 	print(f'The answer to part 1 is: {part_sum}.')
 
 	# Figure out the gear ratio for part 2.
@@ -59,7 +59,6 @@ def run(schematic: list[str]):
 			gear_ratio += sym_dict['adjacent'][0] * sym_dict['adjacent'][1]
 	print(f'The answer to part 2 is: {gear_ratio}.')
 
-
 if __name__ == '__main__':
 	# Read and print the schematic.
 	schematic = open('./inputs/day_3.txt').readlines()
@@ -67,4 +66,5 @@ if __name__ == '__main__':
 		for line in schematic: print(line, end='')
 		print('\n')
 
+	# Run the rest of the program.
 	run(schematic)
