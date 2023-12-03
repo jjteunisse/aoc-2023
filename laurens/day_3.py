@@ -4,13 +4,8 @@ import re
 
 def retrieve_engine_lines():
     engine_lines = []
-    # here = os.path.dirname(os.path.abspath(__file__))
-    # for line in open(here + '\data\day_3_test.txt'):
-    #     engine_lines.append(line)
-    #
-    # return engine_lines
-    for line in open("./data/day_3_test.txt").readlines():
-        engine_lines.append(line)
+    for line in open("./data/day_3.txt").readlines():
+        engine_lines.append(line.strip())
 
     return engine_lines
 
@@ -32,44 +27,54 @@ def get_engine_line_value(previous_line, current_line, next_line):
     for index, character in enumerate(current_line):
         if re.search(r'\d+', character):
             found_number_string += character
-        else:
-            if found_number_string != "":
-                first_index = index - len(found_number_string)
-                last_index = index - 1
 
-                pivot = first_index
-                neighbours = []
+        if (found_number_string != "" and index == (len(current_line) - 1)
+                or found_number_string != "" and not re.search(r'\d+', current_line[index + 1])):
+            first_index = index - len(found_number_string) + 1
+            last_index = index
 
-                while pivot <= last_index:
+            pivot = first_index
+            neighbours = []
 
-                    if pivot == first_index and pivot > 0:
-                        neighbours.append(current_line[index - 1])
-                        if previous_line:
-                            neighbours.append(previous_line[index - 1])
-                            neighbours.append(previous_line[index])
-                        if next_line:
-                            neighbours.append(next_line[index - 1])
-                            neighbours.append(next_line[index])
-                    elif pivot == last_index and pivot < (len(current_line) - 1):
-                        neighbours.append(current_line[index + 1])
-                        if previous_line:
-                            neighbours.append(previous_line[index + 1])
-                            neighbours.append(previous_line[index])
-                        if next_line:
-                            neighbours.append(next_line[index + 1])
-                            neighbours.append(next_line[index])
-                    else:
-                        if previous_line:
-                            neighbours.append(previous_line[index])
-                        if next_line:
-                            neighbours.append(next_line[index])
+            while pivot <= last_index:
 
-                    pivot += 1
+                if pivot == first_index and pivot > 0:
+                    neighbours.append(current_line[pivot - 1])
+                    if previous_line:
+                        neighbours.append(previous_line[pivot - 1])
+                        neighbours.append(previous_line[pivot])
+                    if next_line:
+                        neighbours.append(next_line[pivot - 1])
+                        neighbours.append(next_line[pivot])
 
-                if check_neighbours_for_special_character(neighbours):
-                    line_score += int(found_number_string)
+                if pivot == last_index and pivot < (len(current_line) - 1):
+                    neighbours.append(current_line[pivot + 1])
+                    if previous_line:
+                        neighbours.append(previous_line[pivot + 1])
+                        neighbours.append(previous_line[pivot])
+                    if next_line:
+                        neighbours.append(next_line[pivot + 1])
+                        neighbours.append(next_line[pivot])
+                else:
+                    if previous_line:
+                        neighbours.append(previous_line[pivot])
+                    if next_line:
+                        neighbours.append(next_line[pivot])
 
-                found_number_string = ""
+                pivot += 1
+
+            if found_number_string == "8":
+                print(neighbours)
+                print(first_index)
+                print(last_index)
+
+            if check_neighbours_for_special_character(neighbours):
+                if found_number_string == "8":
+                    print("true")
+                line_score += int(found_number_string)
+
+            found_number_string = ""
+
 
     return line_score
 
@@ -89,9 +94,5 @@ if __name__ == '__main__':
             next_line = engine_lines[index + 1]
 
         score += get_engine_line_value(previous_line, current_line, next_line)
-
-        print(previous_line)
-        print(current_line)
-        print(next_line)
 
     print(score)
