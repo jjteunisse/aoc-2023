@@ -53,7 +53,7 @@ def get_total_cards(game_cards: list):
 if __name__ == '__main__':
     game_cards = []
     if TEST:
-        game_cards = read_from_file("./data/day_4_test.txt")
+        game_cards = read_from_file("./data/day_4_test_1.txt")
     else:
         game_cards = read_from_file("./data/day_4.txt")
 
