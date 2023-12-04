@@ -4,6 +4,9 @@ name = "input"
 
 score = 0
 with open("inputs/day4/{}.txt".format(name)) as file:
+    card_counts = []
+    card_wins = []
+
     for line in file:
         header, content = line.split(":")
         winning_numbers, numbers = content.split("|")
@@ -14,6 +17,10 @@ with open("inputs/day4/{}.txt".format(name)) as file:
         
         wins = np.sum(numbers_match_to_winning)
         
+        card_counts += [1,]
+        card_wins += [wins,]
+        
+        #Count points (task 1)
         if wins == 0:
             points = 0
         else:
@@ -21,4 +28,13 @@ with open("inputs/day4/{}.txt".format(name)) as file:
         
         score += points
         
-print(score)
+    print("Score:", score)
+        
+    #Count number of cards (task 2)
+    card_counts = np.array(card_counts)
+    card_wins = np.array(card_wins)
+    for i in range(len(card_counts)):
+        card_counts[i+1:i+card_wins[i]+1] += card_counts[i]
+        
+    print("Total number of cards:", sum(card_counts))
+        
