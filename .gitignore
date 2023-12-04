@@ -1,1 +1,6 @@
 .idea/*
+**/target
+**/input
+**/.DS_Store
+**/.gitignore
+**/Cargo.lock
