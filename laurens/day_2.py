@@ -1,5 +1,6 @@
-import os
+from laurens.util.file_reader import read_from_file
 
+TEST = True
 BLUE = 14
 GREEN = 13
 RED = 12
@@ -47,15 +48,6 @@ def parse_game_line(game_line):
     return Game(game_id, turns_list)
 
 
-def retrieve_games():
-    games = []
-    here = os.path.dirname(os.path.abspath(__file__))
-    for line in open(here + '\data\day2.txt'):
-        games.append(parse_game_line(line))
-
-    return games
-
-
 def game_possible(game: Game):
     for turn in game.turns:
         if turn.blue > BLUE:
@@ -85,9 +77,15 @@ def calculate_game_power(game: Game):
 
 
 if __name__ == '__main__':
-    games = retrieve_games()
+    games = []
+    if TEST:
+        games = read_from_file("./data/day2_test.txt")
+    else:
+        games = read_from_file("./data/day2.txt")
+
     index_count = 0
     power_count = 0
+
     for game in games:
         if game_possible(game):
             index_count += game.id

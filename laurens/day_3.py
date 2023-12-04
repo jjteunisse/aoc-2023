@@ -1,12 +1,7 @@
+from laurens.util.file_reader import read_from_file
 import re
 
-
-def retrieve_engine_lines():
-    engine_lines = []
-    for line in open("./data/day_3.txt").readlines():
-        engine_lines.append(line.strip())
-
-    return engine_lines
+TEST = False
 
 
 def check_neighbours_for_special_character(list):
@@ -67,8 +62,8 @@ def get_engine_line_value(previous_line, current_line, next_line):
 
             found_number_string = ""
 
-
     return line_score
+
 
 def return_numbers_on_indexes(list, string):
     found_number_string = ""
@@ -136,15 +131,19 @@ def get_gear_score(previous_line, current_line, next_line):
             if next_line:
                 found_numbers += return_numbers_on_indexes(to_check_next, next_line)
 
-            print(found_numbers)
-
             if len(found_numbers) == 2:
                 line_score += int(found_numbers[0]) * int(found_numbers[1])
 
     return line_score
 
+
 if __name__ == '__main__':
-    engine_lines = retrieve_engine_lines()
+    engine_lines = []
+    if TEST:
+        engine_lines = read_from_file("./data/day_3_test.txt")
+    else:
+        engine_lines = read_from_file("./data/day_3.txt")
+
     schematic_score = 0
     gear_score = 0
 
