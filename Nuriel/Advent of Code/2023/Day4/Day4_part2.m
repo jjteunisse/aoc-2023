@@ -1,5 +1,5 @@
 clear all; close all; clc;
-
+tic
 fid = fopen('D:\Home Projects\GitHub Projects\aoc-2023\Nuriel\Advent of Code\2023\Day4\input.txt','r');
 format = '%c';
 doc = strsplit(fscanf(fid,format),{' | ',':  ',': ','\n'});
@@ -29,3 +29,4 @@ for i = 1:lotAmount-1
     accumulation(i+1:endVal) = accumulation(i+1:endVal) + accumulation(i);
 end
 answer2 = sum(accumulation);
+toc
