@@ -84,7 +84,7 @@ def task_2(values: list):
                             break
 
             for seed_range in seed_ranges:
-                if previous_index in range(seed_range[0], seed_range[1]):
+                if seed_range[0] <= previous_index <= seed_range[1]:
                     return location
 
         location += 1
