@@ -1,6 +1,6 @@
 from laurens.util.file_reader import read_from_file
 
-TEST = False
+TEST = True
 
 
 def get_conversion_lists(values: list):
@@ -54,8 +54,6 @@ def task_1(values: list):
 def task_2(values: list):
     found_values = values[0].split(":")[1].strip().split(" ")
     seed_ranges = []
-    is_divisible = lambda x: x % 100000 == 0
-    iteration_counter = 0
 
     while len(found_values) > 0:
         first_index = int(found_values.pop(0))
@@ -65,7 +63,7 @@ def task_2(values: list):
 
     conversion_lists = get_conversion_lists(values)
     location_entries = conversion_lists.pop()
-    conversion_lists_reversed = reversed(conversion_lists)
+    conversion_lists_reversed = list(reversed(conversion_lists))
     location = 0
     found_location = -1
 
@@ -88,10 +86,6 @@ def task_2(values: list):
             for seed_range in seed_ranges:
                 if previous_index in range(seed_range[0], seed_range[1]):
                     return location
-
-            iteration_counter += 1
-            if is_divisible(iteration_counter):
-                print(iteration_counter)
 
         location += 1
 
