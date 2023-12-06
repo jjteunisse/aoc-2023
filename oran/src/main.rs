@@ -2,6 +2,8 @@ mod day1a;
 // mod day1b;
 mod day2a;
 mod day2b;
+mod day3a;
+mod day3b;
 use std::{env, process::exit};
 
 fn main() {
@@ -17,6 +19,8 @@ fn main() {
         // "day1b" => println!("{}", day1b::solve().unwrap()),
         "day2a" => println!("{}", day2a::solve().unwrap()),
         "day2b" => println!("{}", day2b::solve().unwrap()),
+        "day3a" => println!("{}", day3a::solve().unwrap()),
+        "day3b" => println!("{}", day3b::solve().unwrap()),
         _ => println!("unknown name"),
     }
 
