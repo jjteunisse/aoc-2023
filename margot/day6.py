@@ -46,7 +46,7 @@ def main():
     intersections = np.zeros((num_races, 2))
 
     for i, (duration, distance) in enumerate(zip(race_durations, record_distances)):
-    intersections[i] = find_intersections(duration, distance)
+        intersections[i] = find_intersections(duration, distance)
 
     widths = intersections[:, 1] - intersections[:, 0] + 1
     print("Product of margins:", np.product(widths))
