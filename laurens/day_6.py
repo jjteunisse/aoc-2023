@@ -21,7 +21,7 @@ def find_x_values(y, a, y_vertex, game_index):
     return [h - square_root_part, h + square_root_part]
 
 
-def run(times: list, scores: list):
+def run(times: list, records: list):
     score = 0
 
     for index, time in enumerate(times):
