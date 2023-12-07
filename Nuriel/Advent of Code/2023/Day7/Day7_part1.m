@@ -1,6 +1,6 @@
 clear all; close all; clc;
 
-fid = fopen('D:\Home Projects\GitHub Projects\aoc-2023\Nuriel\Advent of Code\2023\Day7\input.txt','r');
+fid = fopen('D:\Home Projects\GitHub Projects\aoc-2023\Nuriel\Advent of Code\2023\Day7\input2.txt','r');
 format = '%c';
 doc = strsplit(fscanf(fid,format),{' | ',':  ',': ','\n',' '});
 hand = doc{1,1:2:end-1};
