@@ -23,7 +23,10 @@ with open("inputs/day7/{}.txt".format(name)) as file:
         
         scores.append(score)
         bids.append(bid)
-
+        
 #Task 1
-winnings = np.sum([bid*(rank+1) for (bid, rank) in zip(bids, np.argsort(scores))])
+winnings = 0
+for rank, bid in enumerate(np.array(bids)[np.argsort(scores)]):
+    winnings += (rank+1)*bid
 print(winnings)
+
