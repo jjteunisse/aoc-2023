@@ -27,4 +27,3 @@ with open("inputs/day7/{}.txt".format(name)) as file:
 #Task 1
 winnings = np.sum([bid*(rank+1) for (bid, rank) in zip(bids, np.argsort(scores))])
 print(winnings)
-
