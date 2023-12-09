@@ -22,9 +22,9 @@ with open("inputs/day9/{}.txt".format(name)) as file:
         
         numbers_backwards = np.flip(numbers)
         for val in ending_values:
-            numbers_backwards = np.flip(np.cumsum([val]+list(-np.flip(numbers_backwards))))
+            numbers_backwards = np.cumsum([val]+list(-numbers_backwards))
             
-        sum_extrap_backwards += numbers_backwards[0]
+        sum_extrap_backwards += numbers_backwards[-1]
         
 print("Sum of forward-extrapolated values (task 1):", sum_extrap)
 print("Sum of backward-extrapolated values (task 2):", sum_extrap_backwards)
