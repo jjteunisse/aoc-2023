@@ -33,7 +33,6 @@ def main():
 
     while not any([np.all(platform == platform_prev) for platform_prev in history]):
         history.append(platform.copy())
-        print(len(history))
         tilt(platform, direction = (-1, 0))
         tilt(platform, direction = (0, -1))
         tilt(platform, direction = (1, 0))
