@@ -7,14 +7,14 @@ enum Cubes {
     Green(u32),
 }
 
-fn main() {
+pub fn day2_1() {
     let mut total = 0;
-    let contents = fs::read_to_string("input")
+    let contents = fs::read_to_string("inputs/day2")
         .expect("Should have been able to read the file");
     for line in contents.lines() {
         let mut v: VecDeque<&str> = line.split(&[',',':',';']).collect();
         v = v.iter().map(|z| z.trim()).collect();
-        let gameid = v.pop_front().unwrap().trim_start_matches("Game ").parse::<i32>().unwrap();
+        let _gameid = v.pop_front().unwrap().trim_start_matches("Game ").parse::<i32>().unwrap();
         let kubusv:Vec<Cubes> = v.iter().map(|z| {
             let mut pair:VecDeque<&str> = z.split(' ').collect();
             let number = pair.pop_front().unwrap().parse::<u32>().unwrap();

@@ -3,8 +3,8 @@ use std::fs;
 
 const NUMBIES: [&str;9] = ["one","two","three","four","five","six","seven","eight","nine"];
 
-fn main() {
-    let contents = fs::read_to_string("input")
+pub fn day1_2() {
+    let contents = fs::read_to_string("inputs/day2")
         .expect("Should have been able to read the file");
     let lineiter = contents.split_ascii_whitespace();
     let mut total:usize = 0;

@@ -1,12 +1,10 @@
-use std::env;
 use std::fs;
-use std::iter;
 
-fn main() {
+pub fn day1() {
     println!("Hello, world!");
-    let contents = fs::read_to_string("input")
+    let contents = fs::read_to_string("inputs/day1")
         .expect("Should have been able to read the file");
-    let mut lineiter = contents.split_ascii_whitespace();
+    let lineiter = contents.split_ascii_whitespace();
     let mut total = 0;
     for line in lineiter {
         let mut firstfound = false;

@@ -7,9 +7,9 @@ enum Cubes {
     Green(u32),
 }
 
-fn main() {
+pub fn day2() {
     let mut total = 0;
-    let contents = fs::read_to_string("input")
+    let contents = fs::read_to_string("inputs/day2")
         .expect("Should have been able to read the file");
     for line in contents.lines() {
         let mut v: VecDeque<&str> = line.split(&[',',':',';']).collect();
