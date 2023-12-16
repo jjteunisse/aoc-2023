@@ -3,6 +3,7 @@ import numpy as np
 name = "input"
 
 sum_arrangements = 0
+
 with open("inputs/day12/{}.txt".format(name)) as file:
     for line in file:
         springs = line.split()[0]
@@ -10,6 +11,7 @@ with open("inputs/day12/{}.txt".format(name)) as file:
         
         num_springs = len(springs)
         num_damaged = sum(damaged_counts)
+
         num_undamaged = num_springs - num_damaged
         
         #Determine the number of 'free' springs: these are the undamaged springs, excluding those that must be placed after each sequence
