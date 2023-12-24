@@ -1,31 +1,99 @@
-record = open('inputs/day_12.txt').read().split('\n')
+DEBUG = False
 
-arrangements = 0
-for line_nr, line in enumerate(record):
-	print(line_nr, end='\r')
-	string = line.split(' ')[0]
-	groups = [int(x) for x in line.split(' ')[1].split(',')]
+Known = dict[dict[str: int]]
 
-	unknown_indices = [i for i, x in enumerate(string) if x == '?']
-	n_unknowns = len(unknown_indices)
-	n_configs = 2 ** n_unknowns
-	configs = [
-		f'{i:b}'
-		.zfill(n_unknowns)
-		.replace('0', '.')
-		.replace('1', '#')
-		for i in range(n_configs)
-	]
+def get_valid_positions(string: str, group_size: int) -> list[int]:
+	# Returns all (starting) positions where the group fits into the string.
 
-	for config in configs:
-		arrangement_list = list(string)
-		for i, j in enumerate(unknown_indices):
-			arrangement_list[j] = config[i]
-		arrangement_groups = [
-			len(x)
-			for x in ''.join(arrangement_list).split('.')
-			if x
+	# Pad the string first, to deal with edge cases efficiently.
+	string = '.' + string + '.'
+
+	# Use a sliding window to check whether the string fits.
+	n_possible_splits = len(string) - group_size - 1
+	valid_splits = []
+	for i in range(n_possible_splits):
+		window = string[i : i + group_size + 2]
+		if (
+			window[0] != '#' and
+			window[group_size + 1] != '#' and
+			'.' not in window[1 : group_size + 1]
+		):
+			valid_splits.append(i)
+
+	return valid_splits
+
+def solve(
+	string: str, groups: tuple[str], depth: int = 0, known: Known = {}
+) -> int:
+	# Recursive function, uses a divide & conquer strategy.
+	# Returns the number of arrangements the given groups fit into the string.
+	if DEBUG:
+		print(f'\nNew iteration at depth {depth}.')
+		print(f'String: {repr(string)}')
+		print(f'Groups: {groups}')
+
+	# Base cases: in which situations are we sure of the solution?
+	if   groups == tuple() and string == '': return 1
+	elif groups == tuple() and string != '': return 0 if '#' in string else 1
+	elif groups != tuple() and string == '': return 0
+	elif groups in known and string in known[groups]:
+		return known[groups][string]
+	else:
+		# Induction step: find the largest group and remove it from the string,
+		# then solve the left and right remainders.
+		max_size = max(groups)
+		max_idx = groups.index(max_size)
+
+		# Get all positions where the group fits into the string.
+		valid_positions = get_valid_positions(string, max_size)
+		if not valid_positions: return 0
+
+		# List all possible split strings based on the valid positions.
+		# Note: the extra slice accounts for the space around the group.
+		split_strings = [
+			[string[:i][:-1], string[i + max_size:][1:]]
+			for i in valid_positions
 		]
-		if arrangement_groups == groups: arrangements += 1
 
-print(f'The answer to part 1 is: {arrangements}.')
+		# Divide the remaining groups, skipping the group itself.
+		groups_left = groups[:max_idx]
+		groups_right = groups[max_idx:][1:]
+		if DEBUG:
+			print(f'Split groups: {groups_left} & {groups_right}')
+
+		# Solve both remaining sides, then multiply the results.
+		n_arrangements = 0
+		for string_pair in split_strings:
+			n_left = solve(string_pair[0], groups_left, depth + 1, known)
+			n_right = solve(string_pair[1], groups_right, depth + 1, known)
+			n_arrangements += n_left * n_right
+			if DEBUG:
+				print(f'Arrangements at depth {depth}: {n_arrangements}')
+
+		# Add the configuration to the list of known results.
+		if groups not in known:
+			known[groups] = {}
+		if string not in known[groups]:
+			known[groups][string] = n_arrangements
+
+		return n_arrangements
+
+def run(record: list[str], *, part: int):
+	total_arrangements = 0
+	for line_nr, line in enumerate(record):
+		print(f'Progress: {line_nr} / {len(record)}', end='\r')
+
+		string, groups = line.split(' ')
+		if part == 2:
+			string = '?'.join([string] * 5)
+			groups = ','.join([groups] * 5)
+		groups = tuple([int(x) for x in groups.split(',')])
+
+		total_arrangements += solve(string, groups)
+
+	print(f'The answer to part {part} is: {total_arrangements}.')
+
+if __name__ == '__main__':
+	record = open('inputs/day_12.txt').read().split('\n')
+	run(record, part=1)
+	run(record, part=2)
