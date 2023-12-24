@@ -1,5 +1,3 @@
-DEBUG = False
-
 Known = dict[dict[str: int]]
 
 def get_valid_positions(string: str, group_size: int) -> list[int]:
@@ -23,21 +21,22 @@ def get_valid_positions(string: str, group_size: int) -> list[int]:
 	return valid_splits
 
 def solve(
-	string: str, groups: tuple[str], depth: int = 0, known: Known = {}
+	string: str, groups: tuple[str], known: Known = {}, depth: int = 0
 ) -> int:
-	# Recursive function, uses a divide & conquer strategy.
-	# Returns the number of arrangements the given groups fit into the string.
-	if DEBUG:
-		print(f'\nNew iteration at depth {depth}.')
-		print(f'String: {repr(string)}')
-		print(f'Groups: {groups}')
+	# Recursive function that uses a divide & conquer strategy.
+	# Returns the number of ways the groups fit into the string.
+
+	# Strip the ends of the string for easier duplicate detection.
+	string = string.strip('.')
 
 	# Base cases: in which situations are we sure of the solution?
-	if   groups == tuple() and string == '': return 1
-	elif groups == tuple() and string != '': return 0 if '#' in string else 1
+	# Tried smarter checks as well, but the time saved didn't outweigh the cost.
+	if   groups == tuple() and string != '': return 0 if '#' in string else 1
+	elif groups == tuple() and string == '': return 1
 	elif groups != tuple() and string == '': return 0
-	elif groups in known and string in known[groups]:
-		return known[groups][string]
+	elif groups in known and string in known[groups]: return known[groups][string]
+	elif sum(groups) < string.count('#'): return 0
+	elif sum(groups) + len(groups) - 1 > len(string): return 0
 	else:
 		# Induction step: find the largest group and remove it from the string,
 		# then solve the left and right remainders.
@@ -58,17 +57,13 @@ def solve(
 		# Divide the remaining groups, skipping the group itself.
 		groups_left = groups[:max_idx]
 		groups_right = groups[max_idx:][1:]
-		if DEBUG:
-			print(f'Split groups: {groups_left} & {groups_right}')
 
 		# Solve both remaining sides, then multiply the results.
 		n_arrangements = 0
 		for string_pair in split_strings:
-			n_left = solve(string_pair[0], groups_left, depth + 1, known)
-			n_right = solve(string_pair[1], groups_right, depth + 1, known)
+			n_left = solve(string_pair[0], groups_left, known, depth + 1)
+			n_right = solve(string_pair[1], groups_right, known, depth + 1)
 			n_arrangements += n_left * n_right
-			if DEBUG:
-				print(f'Arrangements at depth {depth}: {n_arrangements}')
 
 		# Add the configuration to the list of known results.
 		if groups not in known:
