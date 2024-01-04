@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.75"
 roots = "0.0.8"
+scan_fmt = "0.2.6"
 # onig = "6.4.0"
