@@ -1,37 +1,51 @@
 import numpy as np
-
-name = "input"
-
-sum_arrangements = 0
-
-with open("inputs/day12/{}.txt".format(name)) as file:
-    for line in file:
-        springs = line.split()[0]
-        damaged_counts = tuple(int(count) for count in line.split()[1].split(","))
+from typing import Tuple
+import time
+import sys
         
-        num_springs = len(springs)
-        num_damaged = sum(damaged_counts)
+def count_arrangements(springs:str, damaged_counts:Tuple[int, ...]):
+    arrs_per_sequence = {length: {damaged_counts[:i]:0 for i in range(len(damaged_counts)+1)} for length in range(len(springs)+1)}
+    
+    arrs_per_sequence[0][tuple()] = 1
+    for length in range(len(springs)):
+        sequences = (seq for seq in arrs_per_sequence[length] if arrs_per_sequence[length][seq] > 0)
+        for seq in sequences:
+            if seq == damaged_counts:
+                if not '#' in springs[length:]:
+                    arrs_per_sequence[len(springs)][damaged_counts] += arrs_per_sequence[length][seq]
+            else:
+                remaining = len(springs[length:])-sum(damaged_counts[len(seq):])-(len(damaged_counts[len(seq):])-1)
+                num_damaged = damaged_counts[len(seq)]
+                for num_undamaged in range((len(seq)>0), min(springs[length:].find("#"), remaining)+1 if springs[length:].find("#") != -1 else remaining+1):
+                    if (not '#' in springs[length:length+num_undamaged] and not '.' in springs[length+num_undamaged:length+num_undamaged+num_damaged]):
+                        arrs_per_sequence[length+num_undamaged+num_damaged][seq + (num_damaged,)] += arrs_per_sequence[length][seq]
+                        
+    return arrs_per_sequence[len(springs)][damaged_counts]
 
-        num_undamaged = num_springs - num_damaged
-        
-        #Determine the number of 'free' springs: these are the undamaged springs, excluding those that must be placed after each sequence
-        num_free = num_undamaged - (len(damaged_counts)-1)
+def main():
+    timer_start = time.time()
+    
+    name = "input"
 
-        #Construct all possible arrangements for given numbers of damaged springs
-        free_counts = np.zeros((num_free+1, len(damaged_counts)), dtype=int)
-        free_counts[:, 0] = np.arange(num_free+1)
-        for i in range(1, len(damaged_counts)):
-            remaining = num_free - np.sum(free_counts[:, :i], axis=1)
-            free_counts = np.repeat(free_counts, remaining+1, axis=0)
-            free_counts[:, i] = [count for max_count in remaining for count in range(max_count+1)]
-        remaining = num_free - np.sum(free_counts, axis=1)
+    sum_arrangements = 0
+    sum_arrangements_fivefold = 0
+    
+    with open("inputs/day12/{}.txt".format(name)) as file:
+        for line in file:
+            springs = line.split()[0]
+            damaged_counts = tuple(int(count) for count in line.split()[1].split(","))
+            
+            #(Task 1) Add all arrangements to sum that match given springs
+            sum_arrangements += count_arrangements(springs, damaged_counts)
 
-        arrangements = ("".join(["."*free_count + "#"*damaged_count + "."  for (damaged_count, free_count) in zip(damaged_counts[:-1], free_counts[i, :-1])])
-                                 + "."*free_counts[i, -1] + "#"*damaged_counts[-1] + "."*remaining[i] 
-                                   for i in range(free_counts.shape[0]))
-                                   
-        #Add all arrangements to sum that match given springs
-        for arr in arrangements:
-            sum_arrangements += all([val == check if val != '?' else True for (val, check) in zip(springs, arr)])
-        
-print("Total number of arrangements:", sum_arrangements)
+            #(Task 2) Do the same for the unfolded sequence
+            sum_arrangements_fivefold += count_arrangements("?".join([springs]*5), 5*damaged_counts)
+            
+    timer_end = time.time()
+    print("Runtime:", timer_end-timer_start)
+                
+    print("Total number of arrangements (task 1):", sum_arrangements)
+    print("Total number of arrangements (task 2):", sum_arrangements_fivefold)
+    
+if __name__ == "__main__":
+    sys.exit(main())
