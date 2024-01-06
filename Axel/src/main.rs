@@ -13,6 +13,8 @@ mod day6_1;
 mod day6_2;
 mod day7_1;
 mod day7_2;
+mod day8_1;
+mod day8_2;
 
 
 
@@ -44,7 +46,9 @@ fn main() {
         "6_2" => day6_2::day6_2(),
         "7_1" => day7_1::day7_1(),
         "7_2" => day7_2::day7_2(),
-        _ => day7_2::day7_2(),
+        "8_1" => day8_1::day8_1(),
+        "8_2" => day8_2::day8_2(),
+        _ => day8_2::day8_2(),
     };
 
     //isize
