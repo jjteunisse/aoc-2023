@@ -2,7 +2,7 @@
 
 use std::fs;
 
-pub fn day3() {
+pub fn day3() -> Result<u32,String> {
     let mut total = 0;
     let contents = fs::read_to_string("inputs/day3")
         .expect("Should have been able to read the file");
@@ -52,7 +52,7 @@ pub fn day3() {
         }
         i = i + 1;
     }
-    println!("{}", total);
+    Ok(total)
 }
 
 fn derive_number_left (field: [char;19600], mut start: usize) -> Option<u32> {
@@ -85,7 +85,7 @@ fn derive_number_mid (field: [char;19600], start: usize) -> Option<u32> {
     }
 }
 
-fn matchem (avar:Option<u32>, v:Vec<u32>) -> Vec<u32>{
+fn matchem (avar:Option<u32>, mut v:Vec<u32>) -> Vec<u32>{
     match avar {
         Some(x) => {v.push(x);/*println!("{}",x)*/},
         None => (),

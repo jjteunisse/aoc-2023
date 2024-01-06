@@ -7,7 +7,7 @@ enum Cubes {
     Green(u32),
 }
 
-pub fn day2_1() {
+pub fn day2_1() -> Result<u32,String> {
     let mut total = 0;
     let contents = fs::read_to_string("inputs/day2")
         .expect("Should have been able to read the file");
@@ -40,5 +40,5 @@ pub fn day2_1() {
         }
         total = total + redmin * greenmin * bluemin;
     }
-    println!("{}",total);
+    Ok(total)
 }

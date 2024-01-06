@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn day6_2() {
+pub fn day6_2() -> Result<usize,String> {
     let contents = fs::read_to_string("inputs/day6")
         .expect("Should have been able to read the file");
     let mut races = contents
@@ -33,8 +33,7 @@ pub fn day6_2() {
             }
             max-min+1
         }).product();
-    println!("{:?}",total);
+
+
+    Ok(total)
 }
-
-
-//x  =   root(x53-313)

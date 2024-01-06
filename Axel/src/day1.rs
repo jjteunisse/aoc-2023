@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn day1() {
+pub fn day1() -> Result<u32,String> {
     println!("Hello, world!");
     let contents = fs::read_to_string("inputs/day1")
         .expect("Should have been able to read the file");
@@ -25,6 +25,5 @@ pub fn day1() {
         }
         total = laatste + total;
     }
-    println!("{}",total);
-    //println!("{}",contents);
+    Ok(total)
 }

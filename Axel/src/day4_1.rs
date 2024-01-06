@@ -24,7 +24,7 @@ impl Scratchcard{
     }
 }
 
-pub fn day4_1() {
+pub fn day4_1() -> Result<usize,String> {
     let contents = fs::read_to_string("inputs/day4")
         .expect("Should have been able to read the file");
     let cards:Vec<Scratchcard> = contents.lines().map(|line| {
@@ -42,5 +42,5 @@ pub fn day4_1() {
             None => (),
         }
     }
-    println!("{}",total);
+    Ok(total)
 }

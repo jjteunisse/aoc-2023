@@ -3,7 +3,7 @@ use std::fs;
 
 const NUMBIES: [&str;9] = ["one","two","three","four","five","six","seven","eight","nine"];
 
-pub fn day1_2() {
+pub fn day1_2() -> Result<usize,String> {
     let contents = fs::read_to_string("inputs/day2")
         .expect("Should have been able to read the file");
     let lineiter = contents.split_ascii_whitespace();
@@ -45,7 +45,7 @@ pub fn day1_2() {
             }
         }
     }
-    println!("{}",total);
+    Ok(total)
 }
 
 fn eval1lang(begineneind: &str) -> usize {

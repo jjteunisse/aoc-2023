@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn day3_1() {
+pub fn day3_1() -> Result<u32,String> {
     let mut total = 0;
     let contents = fs::read_to_string("inputs/day3")
         .expect("Should have been able to read the file");
@@ -53,7 +53,7 @@ pub fn day3_1() {
             i = i + 1;
         }
     }
-    println!("{}", total);
+    Ok(total)
 }
 
 fn haspart (field: [char;19600],mut lengte: usize, mut start: usize) -> bool {
