@@ -15,6 +15,9 @@ mod day7_1;
 mod day7_2;
 mod day8_1;
 mod day8_2;
+mod day9_1;
+mod day9_2;
+mod day10_1;
 
 
 
@@ -38,7 +41,7 @@ fn main() {
 
 
     //usize
-    let result2:Result<_,_> = match arg.as_str() {
+    let _result2:Result<_,_> = match arg.as_str() {
         "1_2" => day1_2::day1_2(),
         "4_1" => day4_1::day4_1(),
         "4_2" => day4_2::day4_2(),
@@ -48,13 +51,16 @@ fn main() {
         "7_2" => day7_2::day7_2(),
         "8_1" => day8_1::day8_1(),
         "8_2" => day8_2::day8_2(),
-        _ => day8_2::day8_2(),
+        "10_1" => day10_1::day10_1(),
+        _ => day10_1::day10_1(),
     };
 
     //isize
-    let _result3:Result<_,_> = match arg.as_str() {
+    let result3:Result<_,_> = match arg.as_str() {
         "5_2" => day5_2::day5_2(),
-        _ => Err("no isize fn found".to_string()),
+        "9_1" => day9_1::day9_1(),
+        "9_2" => day9_2::day9_2(),
+        _ => Err("k".to_string()),
     };
 
     //i32
@@ -63,7 +69,7 @@ fn main() {
         _ => Err("no i32 fn found".to_string()),
     };
 
-    match result2 {
+    match result3 {
         Ok(x) => println!("{}",x),
         _ => println!("{}", "ye"),
     };

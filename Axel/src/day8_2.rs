@@ -33,6 +33,7 @@ pub fn day8_2() -> Result<usize,String> {
             location.push(entry);
         }
     }
+    
     let mut stepperstart = Vec::new();
     for start in location.iter_mut() {
         let mut directions = lines.0.chars().cycle();
