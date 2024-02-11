@@ -35,3 +35,6 @@ def main():
     steps = [int(string[2:-2], 16) for string in dframe[2]]
 
     print("Volume of lagoon (task 2): {} m^3".format(calculate_lagoon_volume(directions, steps)))
+    
+if __name__ == '__main__':
+    sys.exit(main())
