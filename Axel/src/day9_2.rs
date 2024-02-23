@@ -4,7 +4,6 @@ fn predict (row: &mut [isize]) -> Result<isize,String>  {
     if row.iter().all(|a| a == &0) {
         return Ok(0);
     }
-    println!("{:?}", row);
     let mut temp1 = None;
     let mut temp2;
     for index in 0..row.len() {
